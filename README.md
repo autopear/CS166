@@ -14,8 +14,8 @@ To do
 ### Accessing from Windows
 
 #### 1. Obtain and Install WinSCP and PuTTY
-- WinSCP: <a href="https://winscp.net/" target="__blank">https://winscp.net/</a>
-- PuTTY: <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/" target="__blank">https://www.chiark.greenend.org.uk/~sgtatham/putty/</a>
+- WinSCP: [https://winscp.net/](https://winscp.net/)  
+- PuTTY: [https://www.chiark.greenend.org.uk/~sgtatham/putty/](https://www.chiark.greenend.org.uk/~sgtatham/putty/)
 
 #### 2. Set Putty in WinSCP
 1. Open WinSCP, click `Tools`, select `Preferences`, this will open the Preferences dialog.
@@ -66,7 +66,7 @@ All lab machines are protected by gateways, meaning you can only access them via
 
 6. Click `Save` to create a shortcut for the site. You may set a `Site name` as **lab-machine**, or **wch129-01** (assuming you are assigned to machine 01 in lab 129), or any name you prefer. Check `Save password (not recommended)` if you prefer to save your password. Be sure to only check this option in a safe environment. The press `OK` to save the site's configuration.   
 
-More details about SSH Tunnel in WinSCP: <a href="https://winscp.net/eng/docs/ui_login_tunnel" target="__blank">Tunnel Page (Advanced Site Settings dialog)</a>
+More details about SSH Tunnel in WinSCP: [Tunnel Page (Advanced Site Settings dialog)](https://winscp.net/eng/docs/ui_login_tunnel)
 
 #### 5. Use WinSCP
 You can connect to a site by selecting its shortcut in WinSCP's login dialog, by clicking the `Login` button (with a green icon on the left and down arrow on the right).
@@ -81,8 +81,8 @@ To open a **interactive** command line, you can use one of the following options
 *Note*: In PuTTY, you can copy any text content by selecting the characters. You can paste by right clicking.
 
 #### Documentations
-- WinSCP: <a href="https://winscp.net/eng/docs/start" target="__blank">https://winscp.net/eng/docs/start</a>
-- PuTTY: <a href="[https://the.earth.li/~sgtatham/putty/0.73/htmldoc/" target="__blank">https://the.earth.li/~sgtatham/putty/0.73/htmldoc/</a>
+- WinSCP: [https://winscp.net/eng/docs/start](https://winscp.net/eng/docs/start)
+- PuTTY: [https://the.earth.li/~sgtatham/putty/0.73/htmldoc/](https://the.earth.li/~sgtatham/putty/0.73/htmldoc/)
 
 
 ## Database Setup (Courtesy of Petko Bakalov)
@@ -90,7 +90,7 @@ To open a **interactive** command line, you can use one of the following options
 
 2. Setup your PostgreSQL environment
     1. Create a folder under /tmp as the environment of your test database:  
-        ```console
+        ```bash
         mkdir /tmp/$LOGNAME
         ```
 
@@ -103,12 +103,12 @@ To open a **interactive** command line, you can use one of the following options
         ```
    
     3. Initialize the database environment:
-        ```console
+        ```bash
         initdb
         ```
 
 3. Start the PostgreSQL database server
-    ```console
+    ```bash
     pgctl -o "-c unix_socket_directories=/tmp/$LOGNAME/sockets" -D $PGDATA -l /tmp/$LOGNAME/logfile start
     ```
 
@@ -118,13 +118,13 @@ To open a **interactive** command line, you can use one of the following options
     ```
 
 5. Start the interactive environment (Replace `$DB_NAME` with your database name)
-    ```console
+    ```bash
     psql -h /tmp/$LOGNAME/sockets $DB_NAME
     ```
     The Postgre prompt like **\mydb=#** will show up to accept your SQL commands, 
     where *mydb* is the database name you specified in `$DB_NAME`. Use `\nq` to quit the interactive environment.
     You can also pipeline a SQL script into the interactive environment to execute it in bulk:
-    ```console
+    ```bash
     psql -h /tmp/$LOGNAME/sockets $DB_NAME < yourscript.sql
     ```
 
@@ -140,6 +140,6 @@ To open a **interactive** command line, you can use one of the following options
     ```
 
 7. Stop the database instance
-    ```console
+    ```bash
     pgctl -o "-c unix_socket_directories=/tmp/$LOGNAME/sockets" -D /tmp/$LOGNAME/test/data stop
    ```
