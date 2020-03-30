@@ -14,8 +14,8 @@ To do
 ### Accessing from Windows
 
 #### 1. Obtain and Install WinSCP and PuTTY
-- WinSCP: [https://winscp.net/](https://winscp.net/)  
-- PuTTY: [https://www.chiark.greenend.org.uk/~sgtatham/putty/](https://www.chiark.greenend.org.uk/~sgtatham/putty/)
+- WinSCP: <a href="https://winscp.net/" target="_blank">https://winscp.net/</a>
+- PuTTY: <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank">https://www.chiark.greenend.org.uk/~sgtatham/putty/</a>
 
 #### 2. Set Putty in WinSCP
 1. Open WinSCP, click `Tools`, select `Preferences`, this will open the Preferences dialog.
@@ -66,7 +66,7 @@ All lab machines are protected by gateways, meaning you can only access them via
 
 6. Click `Save` to create a shortcut for the site. You may set a `Site name` as **lab-machine**, or **wch129-01** (assuming you are assigned to machine 01 in lab 129), or any name you prefer. Check `Save password (not recommended)` if you prefer to save your password. Be sure to only check this option in a safe environment. The press `OK` to save the site's configuration.   
 
-More details about SSH Tunnel in WinSCP: [Tunnel Page (Advanced Site Settings dialog)](https://winscp.net/eng/docs/ui_login_tunnel)
+More details about SSH Tunnel in WinSCP: <a href="https://winscp.net/eng/docs/ui_login_tunnel" target="_blank">Tunnel Page (Advanced Site Settings dialog)</a>
 
 #### 5. Use WinSCP
 You can connect to a site by selecting its shortcut in WinSCP's login dialog, by clicking the `Login` button (with a green icon on the left and down arrow on the right).
@@ -81,8 +81,8 @@ To open a **interactive** command line, you can use one of the following options
 *Note*: In PuTTY, you can copy any text content by selecting the characters. You can paste by right clicking.
 
 #### Documentations
-- WinSCP: [https://winscp.net/eng/docs/start](https://winscp.net/eng/docs/start)
-- PuTTY: [https://the.earth.li/~sgtatham/putty/0.73/htmldoc/](https://the.earth.li/~sgtatham/putty/0.73/htmldoc/)
+- WinSCP: <a href="https://winscp.net/eng/docs/start" target="_blank">https://winscp.net/eng/docs/start</a>
+- PuTTY: <a href="[https://the.earth.li/~sgtatham/putty/0.73/htmldoc/" target="_blank">https://the.earth.li/~sgtatham/putty/0.73/htmldoc/</a>
 
 
 ## Database Setup (Courtesy of Petko Bakalov)
@@ -95,12 +95,12 @@ To open a **interactive** command line, you can use one of the following options
         ```
 
     2. Create a data and socket folder under your environment, which will contain Postgre data files and socket information:
-        ```console
-        cd /tmp/$LOGNAME
-        mkdir test
-        mkdir test /data
-        mkdir sockets
-        export PGDATA=/tmp/$LOGNAME/test/data
+        ```bash
+        $ cd /tmp/$LOGNAME
+        $ mkdir test
+        $ mkdir test /data
+        $ mkdir sockets
+        $ export PGDATA=/tmp/$LOGNAME/test/data
         ```
    
     3. Initialize the database environment:
@@ -114,8 +114,8 @@ To open a **interactive** command line, you can use one of the following options
     ```
 
 4. Create your database (Replace `$DB_NAME` with your database name)
-    ```console
-    createdb -h /tmp/$LOGNAME/sockets $DB_NAME
+    ```bash
+    $ createdb -h /tmp/$LOGNAME/sockets $DB_NAME
     ```
 
 5. Start the interactive environment (Replace `$DB_NAME` with your database name)
