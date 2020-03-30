@@ -9,7 +9,113 @@
 ## Accessing a Lab Machine via SSH
 
 ### Accessing from Linux or MacOS
-To do
+
+#### 1. Creating SSH Configuration File
+
+1. Create folder `~/.ssh` (if not exists)
+    ```bash
+    mkdir -m0700 ~/.ssh
+    ```
+2. Create (if not exists) and edit file `~/.ssh/config`
+    ```bash
+    vi ~/.ssh
+    ```
+    
+    If you are not familiar with `vi`, you may use any command line text editors, 
+    or text editors with GUI to edit the file.
+    - In Ubuntu, you may use
+        ```bash
+        gedit ~/.ssh/config
+        ```
+    - In MacOS, you may use 
+        ```bash
+        open /System/Applications/TextEdit.app/Contents/MacOS/TextEdit ~/.ssh/config
+        ```
+        or in older versions of MacOS
+        ```bash
+        open /Applications/TextEdit.app/Contents/MacOS/TextEdit ~/.ssh/config
+        ```
+
+3. Add the following content to `~/.ssh/config` (Remember to save the file) 
+    - If you want a separate connection to *bolt.cs.ucr.edu*:
+        ```
+        Host SHORTCUT_NAME_BOLT
+            HostName bolt.cs.ucr.edu
+            User UCR_ID
+        ```
+        Replace UCR_ID with your UCR ID. Replace `SHORTCUT_NAME_BOLT` with a name you prefer, for example, **bolt**.
+
+    - To add a shortcut to a lab machine *__wch129-01__.cs.ucr.edu* (assuming you are assigned to machine 01 in lab 
+      129):
+        ```
+        Host SHORTCUT_NAME_LAB
+            HostName wch129-01.cs.ucr.edu
+            User UCR_ID
+            ProxyCommand ssh -W %h:%p UCR_ID@bolt.cs.ucr.edu
+        ```
+        or
+        ```
+        Host bolt
+            HostName bolt.cs.ucr.edu
+            User UCR_ID
+        Host SHORTCUT_NAME_LAB
+            HostName wch129-01.cs.ucr.edu
+            User UCR_ID
+            ProxyCommand ssh -W %h:%p UCR_ID@bolt
+        ```
+        The second one creates 2 shortcuts, the first section configures a shortcut for *bolt.cs.ucr.edu*, the second
+        section configures a shortcut for the lab machine using the shortcut for *bolt*.
+
+        Replace `SHORTCUT_NAME_LAB` with a name you prefer, for example, **lab-machine**. Then you can SSH to 
+        *__wch129-01__.cs.ucr.edu* simply by `ssh lab-machine` without specifying the full host name and your user name.
+
+4. (Optional) Set permission to `~/.ssh/config`
+    ```bash
+    chmod 0644 ~/.ssh/config
+    ```
+
+#### 2. SSH Connection
+To execute commands on the lab machine, you need to open a SSH connection:
+
+If the shortcut name of *bolt.cs.ucr.edu* is **bolt**.
+```bash
+ssh bolt
+```
+If the shortcut name of *__wch129-01__.cs.ucr.edu* is **lab-machine**.
+```bash
+ssh lab-machine
+```
+Via SSH config, you don't need to specify the full host name and your user name, as well as the proxy command.
+
+
+#### 3. Transferring Files
+To transfer files between your local machine and the server, use the following commands:
+
+Transfer a file / directory from local machine to the server:
+```bash
+# Transfer a file 'somefile'
+scp ~/user/somefile lab-machine:~/afolder/
+# Transfer a directory 'somedir' and its contents
+scp -r ~/user/somedir lab-machine:~/afolder/
+```
+
+Transfer a file / directory from the server to local machine:
+```bash
+# Transfer a file 'somefile'
+scp lab-machine:~/afolder/somefile ~/user/
+# Transfer a directory 'somedir' and its contents
+scp -r lab-machine:~/afolder/somedir ~/user/
+```
+
+More details can be found at [How to Use SCP Command to Securely Transfer Files
+](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/) 
+
+#### Notes
+- Lab machines do not save your files in the home directory after logout.
+- For the same reason, lab machines cannot save your public key for SSH keyless authentication. Meaning that you can 
+  only use password for SSH authentication.
+- SSH config does not have the ability to save your password. There is a way, though, not recommended as it is insecure:
+  [https://serverfault.com/questions/535028/adding-password-to-ssh-config](https://serverfault.com/questions/535028/adding-password-to-ssh-config)
 
 ### Accessing from Windows
 
@@ -20,14 +126,18 @@ To do
 #### 2. Set Putty in WinSCP
 1. Open WinSCP, click `Tools`, select `Preferences`, this will open the Preferences dialog.
 
-2. Select `Integration` then `Applications`, set `PuTTY/Terminal client path` to **putty.exe**. The default path should work.  
+2. Select `Integration` then `Applications`, set `PuTTY/Terminal client path` to **putty.exe**. The default path should
+   work.  
     ![winscp+putty](https://winscp-static-746341.c.cdn77.org/data/media/screenshots/pref_integration_app.png)  
-   You may check `Automatically open new sessions in PuTTY` if you want to automatically open a PuTTY windows whenever you open a connection to a server.
+   You may check `Automatically open new sessions in PuTTY` if you want to automatically open a PuTTY windows whenever
+   you open a connection to a server.
 
 3. Click `OK` to save the configurations.
 
 #### 3. (Optional) Create a Site to bolt.cs.ucr.edu
-1. In WinSCP's login dialog, select `New Site` in the left panel, then fill the following information in the right ***Session* panel:
+Follow the following steps if you want to connect to *bolt.cs.ucr.edu*:
+1. In WinSCP's login dialog, select `New Site` in the left panel, then fill the following information in the right 
+   ***Session* panel:
     - `File protocol` SFTP (default)
     - `Hostname` *bolt.cs.ucr.edu*
     - `Port number` 22 (default)
@@ -36,13 +146,16 @@ To do
 
     ![winscp-login](https://winscp-static-746341.c.cdn77.org/data/media/screenshots/login.png)
 
-2. Click `Save` to create a shortcut for bolt. You may set a `Site name` as **bolt** or any name you prefer. Check `Save password (not recommended)` if you prefer to save your password. Be sure to only check this option in a safe environment. The press `OK` to save the site's configuration.
+2. Click `Save` to create a shortcut for bolt. You may set a `Site name` as **bolt** or any name you prefer. Check 
+`Save password (not recommended)` if you prefer to save your password. Be sure to check this option **only** in a safe 
+environment. The press `OK` to save the site's configuration.
 
 #### 4. Create a Site to Lab Machine via SSH Tunnel
-All lab machines are protected by gateways, meaning you can only access them via a gateway server, such as bolt. To access a lab machine, you need to configure bolt as [SSH Tunnel](https://www.ssh.com/ssh/tunneling/example#what-is-ssh-port-forwarding,-aka-ssh-tunneling?).
+All lab machines are protected by gateways, meaning you can only access them via a gateway server, such as bolt. To 
+access a lab machine, you need to configure bolt as [SSH Tunnel](https://www.ssh.com/ssh/tunneling/example#what-is-ssh-port-forwarding,-aka-ssh-tunneling?).
 1. In WinSCP's login dialog, create a new site with the following information:
     - `File protocol` SFTP (default)
-    - `Hostname` *wch129-01.cs.ucr.edu*, assuming you are assigned to machine 01 in lab 129.
+    - `Host name` *__wch129-01__.cs.ucr.edu*, assuming you are assigned to machine 01 in lab 129.
     - `Port number` 22 (default)
     - `User name` Your UCR ID
     - `Password` Your CS password. Leave empty if you don't want to save it.
@@ -54,8 +167,7 @@ All lab machines are protected by gateways, meaning you can only access them via
     ![winscp-tunnel](https://winscp.net/eng/data/media/screenshots/login_tunnel.png)
 
 4. Check `Connect through SSH tunnel`, and fill the following information:
-    - `File protocol` SFTP (default)
-    - `Hostname` *bolt.cs.ucr.edu*
+    - `Host name` *bolt.cs.ucr.edu*
     - `Port number` 22 (default)
     - `User name` Your UCR ID
     - `Password` Your CS password. Leave empty if you don't want to save it.
@@ -64,16 +176,21 @@ All lab machines are protected by gateways, meaning you can only access them via
 
 5. Click `OK` to save the site's advanced settings.
 
-6. Click `Save` to create a shortcut for the site. You may set a `Site name` as **lab-machine**, or **wch129-01** (assuming you are assigned to machine 01 in lab 129), or any name you prefer. Check `Save password (not recommended)` if you prefer to save your password. Be sure to only check this option in a safe environment. The press `OK` to save the site's configuration.   
+6. Click `Save` to create a shortcut for the site. You may set a `Site name` as **lab-machine**, or **wch129-01** 
+(assuming you are assigned to machine 01 in lab 129), or any name you prefer. Check `Save password (not recommended)` 
+if you prefer to save your password. Be sure to check this option **only** in a safe environment. The press `OK` to save
+ the site's configuration.   
 
 More details about SSH Tunnel in WinSCP: [Tunnel Page (Advanced Site Settings dialog)](https://winscp.net/eng/docs/ui_login_tunnel)
 
 #### 5. Use WinSCP
-You can connect to a site by selecting its shortcut in WinSCP's login dialog, by clicking the `Login` button (with a green icon on the left and down arrow on the right).
+You can connect to a site by selecting its shortcut in WinSCP's login dialog, by clicking the `Login` button (with a 
+green icon on the left and down arrow on the right).
 
-Through WinSCP, you can transfer files from your local computer to the remote server. You can use the left and right file panel for file transfers. Or you can drag-and-drop files from the server to local, or from local to the server.
+Through WinSCP, you can transfer files from your local computer to the remote server. You can use the left and right 
+file panel for file transfers. Or you can drag-and-drop files from the server to local, or from local to the server.
 
-To open a **interactive** command line, you can use one of the following options:
+To open an **interactive** command line, you can use one of the following options:
 - Go to `Commands`, select `Open in PuTTY`
 - In the tool bar, click the icon with a flash between 2 monitors
 - Use shortcut `Ctrl + P`
@@ -94,7 +211,8 @@ To open a **interactive** command line, you can use one of the following options
         mkdir /tmp/$LOGNAME
         ```
 
-    2. Create a data and socket folder under your environment, which will contain Postgre data files and socket information:
+    2. Create a data and socket folder under your environment, which will contain Postgre data files and socket 
+    information:
         ```bash
         cd /tmp/$LOGNAME
         mkdir -p test/data
