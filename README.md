@@ -66,8 +66,7 @@
         The second one creates 2 shortcuts, the first section configures a shortcut for *bolt.cs.ucr.edu*, the second
         section configures a shortcut for the lab machine using the shortcut for *bolt*.
 
-        Replace `SHORTCUT_NAME_LAB` with a name you prefer, for example, **lab-machine**. Then you can SSH to 
-        *__wch129-01__.cs.ucr.edu* simply by `ssh lab-machine` without specifying the full host name and your user name.
+        Replace `SHORTCUT_NAME_LAB` with a name you prefer, for example, **lab-machine**.
 
 4. (Optional) Set permission to `~/.ssh/config`
     ```bash
