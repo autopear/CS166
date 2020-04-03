@@ -14,6 +14,7 @@
 
 1. Create folder `~/.ssh` (if not exists)
     ```bash
+    # ~ is the path of your home directory
     mkdir -m0700 ~/.ssh
     ```
 2. Create (if not exists) and edit file `~/.ssh/config`
@@ -25,14 +26,23 @@
     or text editors with GUI to edit the file.
     - In Ubuntu, you may use
         ```bash
+        # Create the file if not exists
+        touch ~/.ssh/config
+        # Use gedit to open the file
         gedit ~/.ssh/config
         ```
     - In MacOS, you may use 
         ```bash
+        # Create the file if not exists
+        touch ~/.ssh/config
+        # Use TextEdit to open the file
         open /System/Applications/TextEdit.app/Contents/MacOS/TextEdit ~/.ssh/config
         ```
         or in older versions of MacOS
         ```bash
+        # Create the file if not exists
+        touch ~/.ssh/config
+        # Use TextEdit to open the file
         open /Applications/TextEdit.app/Contents/MacOS/TextEdit ~/.ssh/config
         ```
 
@@ -86,6 +96,11 @@ ssh lab-machine
 ```
 Via SSH config, you don't need to specify the full host name and your user name, as well as the proxy command.
 
+
+To close the SSH connection, run the following command or simple close the terminal application:
+```bash
+exit
+```
 
 #### 3. Transferring Files
 To transfer files between your local machine and the server, use the following commands:
@@ -194,6 +209,8 @@ To open an **interactive** command line, you can use one of the following option
 - In the tool bar, click the icon with a flash between 2 monitors
 - Use shortcut `Ctrl + P`
 
+To close the connection, simply close the PuTTY window.
+
 *Note*: In PuTTY, you can copy any text content by selecting the characters. You can paste by right clicking.
 
 #### Documentations
@@ -233,7 +250,7 @@ To open an **interactive** command line, you can use one of the following option
     ```bash
     createdb -h /tmp/$LOGNAME/sockets $DB_NAME
     ```
-    If you run into the following error, first check to make sure you completed steps 1-3 correctly. If it is still not working, it is likely due an issue with Postgres connecting to the port properly.
+    **If you run into the following error, first check to make sure you completed steps 1-3 correctly. If it is still not working, it is likely due an issue with Postgres connecting to the port properly.**
     ```
     createdb: could not connect to database template1: could not connect to server: No such file or directory
         Is the server running locally and accepting
