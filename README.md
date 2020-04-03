@@ -226,20 +226,35 @@ To open an **interactive** command line, you can use one of the following option
 
 3. Start the PostgreSQL database server
     ```bash
-    pgctl -o "-c unix_socket_directories=/tmp/$LOGNAME/sockets" -D $PGDATA -l /tmp/$LOGNAME/logfile start
+    pg_ctl -o "-c unix_socket_directories=/tmp/$LOGNAME/sockets" -D $PGDATA -l /tmp/$LOGNAME/logfile start
     ```
 
 4. Create your database (Replace `$DB_NAME` with your database name)
     ```bash
     createdb -h /tmp/$LOGNAME/sockets $DB_NAME
     ```
+    If you run into the following error, first check to make sure you completed steps 1-3 correctly. If it is still not working, it is likely due an issue with Postgres connecting to the port properly.
+    ```
+    createdb: could not connect to database template1: could not connect to server: No such file or directory
+        Is the server running locally and accepting
+        connections on Unix domain socket "/tmp/$LOGNAME/sockets/.s.PGSQL.5432"
+    ```
+    Check what the PGPORT variable is set to.
+    ```
+    echo $PGPORT
+    ```
+    Update this to a value between 40000 and 50000. For example:
+    ```
+    export PGPORT=49434
+    ```
+    Exit the lab machine and log back in. You should be able to restart from step 3 and try again. You may need to try a few different ports.
 
 5. Start the interactive environment (Replace `$DB_NAME` with your database name)
     ```bash
     psql -h /tmp/$LOGNAME/sockets $DB_NAME
     ```
     The Postgre prompt like **\mydb=#** will show up to accept your SQL commands, 
-    where *mydb* is the database name you specified in `$DB_NAME`. Use `\nq` to quit the interactive environment.
+    where *mydb* is the database name you specified in `$DB_NAME`. Use `\q` to quit the interactive environment.
     You can also pipeline a SQL script into the interactive environment to execute it in bulk:
     ```bash
     psql -h /tmp/$LOGNAME/sockets $DB_NAME < yourscript.sql
@@ -251,12 +266,12 @@ To open an **interactive** command line, you can use one of the following option
     ```
     Show all tables viewable to you:
     ```sql
-    SELECT table name
+    SELECT table_name
     FROM information_schema.tables
     WHERE table_schema='public';
     ```
 
 7. Stop the database instance
     ```bash
-    pgctl -o "-c unix_socket_directories=/tmp/$LOGNAME/sockets" -D /tmp/$LOGNAME/test/data stop
-   ```
+    pg_ctl -o "-c unix_socket_directories=/tmp/$LOGNAME/sockets" -D /tmp/$LOGNAME/test/data stop
+    ```
