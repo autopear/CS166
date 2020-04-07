@@ -1,9 +1,13 @@
 # CS 166 Server Access and Database Setup Guide
 
+## Changes
+You may use `th-03.cs.ucr.edu` instead of `bolt.cs.ucr.edu` as the SSH tunnel.
+
 ## Table of Contents  
 - [Accessing a Lab Machine via SSH](#accessing-a-lab-machine-via-ssh)  
     - [Accessing from Linux or MacOS](#accessing-from-linux-or-macos)
     - [Accessing from Windows](#accessing-from-windows)
+	- [CSE Instructional Support: Logging in to your account remotely](https://sites.google.com/a/ucr.edu/cse-instructional-support/home/accounts#remote_login)
 - [Database Setup (Courtesy of Petko Bakalov)](#database-setup-courtesy-of-petko-bakalov))  
 
 ## Accessing a Lab Machine via SSH
